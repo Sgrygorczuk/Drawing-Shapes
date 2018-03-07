@@ -1,0 +1,143 @@
+/*
+Exercise 4
+For: CSC 22100 - F : Software Design Laboratory [ Fall 2016 ]
+Created by: Sebastian Grygorczuk
+Due: 11/21/2016
+*/
+
+import java.awt.Color;
+import javax.swing.JPanel;
+import java.awt.Graphics;
+
+/*
+Description:
+This is the Shape class it will contain the basic functions
+that will be shared amongst all class that relate to shapes.
+*/
+
+abstract public class Shape {
+    protected int x;
+    protected int y;
+    protected Color Colour;
+/*
+Description:
+This is an advanced Shape constructor, it takes
+the x and y coordinates that will mark the apex of
+the shape, and it also takes in the color of the shape.
+*/
+
+public Shape(int x, int y, Color Colour)
+{
+    this.x = x;
+    this.y = y;
+    this.Colour = Colour;
+}
+public Shape()
+{
+    x = 200;
+    y = 200;
+    Colour = Color.BLACK;
+}
+
+/*
+Description:
+The getX method takes in no parameters and returns
+the value of the x coordinate.
+*/
+
+public int getX ()
+{
+    return x;
+}
+
+/*
+Description:
+The getY method takes in no parameters and returns
+the value of the y coordinate.
+*/
+
+public int getY ()
+{
+    return y;
+}
+
+/*
+Description:
+The getColor method takes in no parameters and returns
+the values of the r,g,b of the Color.
+*/
+
+public Color getColor ()
+{
+    return Colour;
+}
+
+/*
+Description:
+The setX method takes in an int as a parameter
+and then sets x value equal to it.
+*/
+
+public void setX (int x)
+{
+    this.x = x;
+}
+/*
+
+Description:
+The setY method takes in an int as a parameter
+and then sets y value equal to it.
+*/
+
+public void setY (int y)
+{
+    this.y = y;
+}
+
+/*
+Description:
+The setColor method takes in Color as a parameter
+and then sets Colour value equal to it.
+*/
+
+public void setColor (Color Colour)
+{
+    this.Colour = Colour;
+}
+
+/*
+Description:
+The setColor method takes three parameters all of them int as a parameters,
+and sets them as a parameter equal to r,g,b which sets a Colour.
+*/
+
+public void setColor (int r, int g, int b)
+{
+    Color Colour = new Color(r,g,b);
+    his.Colour = Colour;
+}
+
+/*
+Description:
+The moveTo method takes int two inputs x and y which are the new
+location of the shape apex and makes them equal to the object's
+x and y coordinates.
+*/
+
+public void moveTo (int x, int y)
+{
+    this.x = x;
+    this.y = y;
+}
+
+/*
+Description:
+Functions that are over written by sub classes.
+*/
+public abstract String toString();
+public abstract void draw(Graphics g);
+public void setRadius(double radius) {}
+public void setWidth(int width) {}
+public void setHeight(int width){}
+public int getRadius() {return 0;}
+}
