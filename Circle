@@ -1,0 +1,68 @@
+/*
+Exercise 4
+For: CSC 22100 - F : Software Design Laboratory [ Fall 2016 ]
+Created by: Sebastian Grygorczuk
+Due: 11/21/2016
+*/
+import java.awt.Color;
+import java.awt.Graphics;
+
+/*
+The circle class will take in the necessary information to create a circle and caclute any
+needed infromation about it.
+*/
+
+public class Circle extends Shape
+{
+    private double Radius;
+//The Consturctor for the circle class that takes the most baics information to create a circle
+    public Circle(double Radius, int X, int Y, Color Colour)
+{
+    this.Radius = Radius;
+    setX(X);
+    setY(Y);
+    setColor(Colour);
+}
+
+//Gives the user the area of the circle
+
+public int getArea()
+{
+    return (int) (Math.PI * Math.pow(Radius, 2));
+}
+
+//Gives the user the perimiter of the circle
+
+public int getPerimiter()
+{
+    return (int) (Math.PI * 2 * Radius);
+}
+
+//GIves the user the radius of the circle
+
+public int getRadius()
+{
+    return (int) Radius;
+}
+
+public void setRadius(double radius)
+{
+    Radius = radius;
+}
+
+//Return all of the infomration about the circle in a string form
+
+public String toString()
+{
+    return "The radius of the circle is " + Radius + ", with the Area of " + getArea()
+    + ", and Perimiter of " + getPerimiter();
+}
+
+//This is what the print Component will call when drawing a circle.
+
+public void draw(Graphics g)
+{
+    g.setColor(getColor());
+    g.fillOval((int) (getX() - Radius), (int) (getY() - Radius), (int) 2*getRadius(), 2*getRadius());
+}
+}
