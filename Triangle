@@ -1,0 +1,262 @@
+/*
+Exercise 4
+For: CSC 22100 - F : Software Design Laboratory [ Fall 2016 ]
+Created by: Sebastian Grygorczuk
+Due: 11/21/2016
+*/
+
+import java.awt.Color;
+import java.awt.Graphics;
+
+/*
+Description:
+This is the Triangle class it will contain all the functions
+that pertain to the Triangle Shape.
+*/
+
+public class Triangle extends Shape {
+    private int x[];
+    private int y[];
+    private double Sides[];
+    private double Angles[];
+    private int Area;
+
+/*
+Description:
+The constructor for any triangle takes in a array of sides as well as
+a Shape, it then creates the private variable arrays and assigns the values of sides
+passed in, it also passes on the attributes of the Shape. If the sides make a triangle
+the constructor will run the setInfo method which will calculate the remaining
+components of the triangle.
+*/
+
+public Triangle (double Sides [], int X, int Y, Color Colour)
+{
+    setX(X);
+    setY(Y);
+    setColor(Colour);
+    x = new int [3];
+    y = new int [3];
+    this.Sides = new double [3];
+    Angles = new double [3];
+    this.Sides[0] = Sides[0];
+    this.Sides[1] = Sides[1];
+    this.Sides[2] = Sides[2];
+    if(isTriangle());
+    {
+    setInfo(1);
+    }
+}
+
+/*
+Description:
+This constructor is for a isosceles triangles, where it gives
+the value of two of the sides and a angle between them, and a Shape.
+It then creates the private variable arrays and assigns the values of sides
+passed in, and the angle, it also passes on the attributes of the Shape.
+After that it runs the setInfo method which will calculate the remaining
+components of the triangle.
+*/
+
+public Triangle (double IsoSide, double Angle0, int X, int Y, Color Colour)
+{
+    setX(X);
+    setY(Y);
+    setColor(Colour);
+    x = new int [3];
+    y = new int [3];
+    Sides = new double [3];
+    Angles = new double [3];
+    Sides[1] = Sides[2] = (int) IsoSide;
+    Angles[0] = (int) Angle0;
+    setInfo(2);
+}
+
+/*
+Description:
+The setInfo method passes in an int which will choose how to process the information given
+to the object. Once it does that it will calculate the missing components of the of the
+Triangle, and then set the x and y coordinates in respect to the apex provided by the Shape
+object.
+*/
+
+private void setInfo (int TriangleType)
+{
+    if(TriangleType == 1)
+    {
+        Angles[0] = Math.toDegrees(Math.acos(((Math.pow(Sides[1], 2) + Math.pow(Sides[2], 2)
+        - Math.pow(Sides[0], 2))/ (2*Sides[1]*Sides[2]))));
+        Angles[1] = Math.toDegrees(Math.acos(((Math.pow(Sides[0], 2) + Math.pow(Sides[2], 2)
+        - Math.pow(Sides[1], 2))/ (2*Sides[0]*Sides[2]))));
+        Angles[2] = Math.toDegrees(Math.acos(((Math.pow(Sides[1], 2) + Math.pow(Sides[0], 2)
+        - Math.pow(Sides[2], 2))/ (2*Sides[1]*Sides[0]))));
+    }
+    else if(TriangleType == 2)
+    {
+        Sides[0] = Math.ceil( Math.sqrt(Math.pow(Sides[1],2) + Math.pow(Sides[2],2)
+        - 2*Sides[1]*Sides[2]*Math.cos(Math.toRadians(Angles[0]))));
+        Angles[1] = Angles[2] = (180-Angles[0])/2;
+    }   
+    x[0] = getX();
+    y[0] = getY();
+    x[1] = x[0] + (int) (Sides[1] * Math.cos(Math.toRadians(45 - (Angles[0]/2))));
+    y[1] = y[0] + (int) (Sides[1] * Math.sin(Math.toRadians(45 - (Angles[0]/2))));
+    x[2] = x[0] + (int) (Sides[2] * Math.sin(Math.toRadians(45 - (Angles[0]/2))));
+    y[2] = y[0] + (int) (Sides[2] * Math.cos(Math.toRadians(45 - (Angles[0]/2))));
+    double s = (Sides[0] + Sides[1] +Sides[2])/2;
+    Area = (int) Math.sqrt(s*(s-Sides[0])*(s-Sides[1])*(s-Sides[2]));
+}
+
+/*
+Description:
+The isTriangle method checks if the provided information creates a triangle
+*/
+
+public boolean isTriangle()
+{
+    return ((Sides[0]+Sides[1] > Sides[2]) && (Sides[2]+Sides[1] > Sides[0]) &&
+    (Sides[0]+Sides[2] > Sides[1])) ? true : false;
+}
+
+/*
+Description:
+The getArea returns the Area of the triangle if the shape is a triangle.
+*/    
+
+public int getArea()
+{
+    if(isTriangle())
+    {
+    return Area;
+    }
+    else
+    {
+    return 0;
+    }
+}
+
+/*
+Description:
+The getPerimiter returns the perimeter of the triangle if the shape is a triangle.
+*/
+
+public int getPerimiter()
+{
+    if(isTriangle())
+    {
+    return (int) (Sides[0] + Sides[1] + Sides[2]);
+    }    
+    else
+    {
+    return 0;
+    }
+}
+
+/*
+Description:
+The getAngleA returns the angle that is opposite of the side A which is
+defined between the points (x[0],y[0]) and (x[1],y[1])
+*/
+
+public int getAngleA()
+{
+    return (int) Angles[0];
+}
+
+/*
+Description:
+The getAngleB returns the angle that is opposite of the side B which is
+defined between the points (x[0],y[0]) and (x[2],y[2])
+*/
+
+public int getAngleB()
+{
+    return (int) Angles[1];
+}
+
+/*
+Description:
+The getAngleC returns the angle that is opposite of the side C which is
+defined between the points (x[1],y[1]) and (x[2],y[2])
+*/
+
+public int getAngleC()
+{
+    return (int) (Angles[2]);
+}
+
+/*
+Description:
+The getSides return an array with the values of the sides.
+*/
+
+public double [] getSides()
+{
+    return Sides;
+}
+
+/*
+Description:
+The getAngels return an array with the values of the Angels.
+*/
+
+public double [] getAngles()
+{
+    return Angles;
+}
+
+/*
+Description:
+The setSides changes the values of the Sides array and if the values provided
+make triangle they calculate the missing information.
+*/
+
+public void setSides (int Sides [])
+{
+    this.Sides[0] = Sides[0];
+    this.Sides[1] = Sides[1];
+    this.Sides[2] = Sides[2];
+    if(isTriangle())
+    {
+    setInfo(1);
+    }
+}
+
+/*
+Description:
+The toString method returns the string with all the collected information about the
+triangle, or states that the provided information cannot make a triangle.
+*/
+
+public String toString()
+{
+    if(isTriangle())
+    {
+        return "Length of SideA is: " + Sides[0] + ". With the Angle of: " + Angles[0]
+        + " \nLength of SideB is: " + Sides[1] + ". With the Angle of: " + Angles[1]
+        + " \nLength of SideC is: " + Sides[2] + ". With the Angle of: " + Angles[2]
+        + " \nWith the Perimeter being: " + getPerimiter() + ", and the area of: " + getArea();
+        //+ "\n(" + x[0] + "," + y[0] + ")" + "(" + x[1] + "," + y[1] + ")" + "(" + x[2] + "," + y[2] +
+        ")";
+    }
+    else
+    {
+        return "This shape is not a Triangle";
+    }
+}
+
+/*
+Description:
+The paint method draws a diagonal of the frame and then draws a triangle on a
+point provided by the apex of the shape object using the color of the shape object.
+*/
+
+public void draw (Graphics g)
+{
+    if(isTriangle())
+    {
+        g.setColor(getColor());
+        g.fillPolygon(x, y, 3);
+    }
+}
+}
