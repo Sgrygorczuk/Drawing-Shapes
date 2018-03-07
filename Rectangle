@@ -1,0 +1,106 @@
+/*
+Exercise 4
+For: CSC 22100 - F : Software Design Laboratory [ Fall 2016 ]
+Created by: Sebastian Grygorczuk
+Due: 11/21/2016
+*/
+
+import java.awt.Color;
+import java.awt.Graphics;
+
+/*
+The rectangle class holds all the implementations of what the rectangle shape hodls
+*/
+
+public class Rectangle extends Shape{
+private int width;
+private int height;
+
+/*
+Rectangle constructor takes in width, height, x and y coordate and color of the shape.
+and assings all of that to shape variables.
+*/
+
+public Rectangle(int width, int height, int X, int Y, Color Colour)
+{
+    this.width = width;
+    this.height = height;
+    setX(X);
+    setY(Y);
+    setColor(Colour);
+}
+
+/*
+Returns are of the rectangle to the user.
+*/
+
+public int getArea()
+{
+    return (width*height);
+}
+
+/*
+Returns the perimeter of the rectangle to the user
+*/
+
+public int getPerimiter()
+{
+    return (2*width + 2*height);
+}
+
+/*
+Returns the perimeter of the rectangle to the user
+*/    
+
+public int getWidth()
+{
+    return width;
+}
+
+/*
+Returns the perimeter of the rectangle to the user
+*/
+
+public int getHeight()
+{
+    return height;
+}
+
+/*
+Changes the varibale of width to the one passed in
+*/
+
+public void setWidth(int width)
+{
+    this.width = width;
+}
+
+/*
+Changes the varibale of height to the one passed in
+*/
+
+public void setHeight(int height)
+{
+    this.height = height;
+}
+
+/*
+Creares the string that gives all the information that is importnat to the recangle shape
+*/
+
+public String toString() 
+{
+    return "The Width of the rectangle is: " + width + " and height of: " + height + ", with Area of: " +
+    getArea() + " and Perimiter of: " + getPerimiter();
+}
+
+/*
+Set's up instruction on how to draw the shape.
+*/
+
+public void draw(Graphics g) 
+{
+    g.setColor(Colour);
+    g.fillRect(getX(), getY(), width, height);
+}
+}
