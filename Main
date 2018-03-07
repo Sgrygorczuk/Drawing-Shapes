@@ -1,0 +1,79 @@
+/*
+Exercise 4
+For: CSC 22100 - F : Software Design Laboratory [ Fall 2016 ]
+Created by: Sebastian Grygorczuk
+Due: 11/21/2016
+*/
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.*;
+
+/*
+This is the main class of the program it extends JFrame and
+implements the buttons as well as the layout used by the buttons.
+*/
+
+public class Main extends JFrame {
+    int Choice = 0;
+    static draw draws;
+    
+/*
+The constructor creates the two buttons that are used for
+switching between the graphical objects and layout.
+*/
+
+public Main()
+{
+    super("Exercise 4");
+    JPanel panel = new JPanel();
+    panel.setLayout(new GridLayout(1,2));
+    JButton triangle = new JButton("Equilateral Triangle in a Circle");
+    add(triangle);
+    JButton rectangle = new JButton("Concentric Rectangles & Ovals");
+    add(rectangle);
+    ButtonHandler handler = new ButtonHandler();
+    triangle.addActionListener(handler);
+    rectangle.addActionListener(handler);
+    panel.add(triangle);
+    panel.add(rectangle);
+    add(panel, BorderLayout.SOUTH);
+}
+
+/*
+The inner Class that is responsible for the actions of buttons.
+*/
+
+private class ButtonHandler implements ActionListener
+{
+/*
+actionPerformed checks that first inital of the button and based
+on that choses which item should be drawn.
+*/
+
+public void actionPerformed(ActionEvent event)
+    {
+    String stringy = event.getActionCommand();
+    char c = stringy.charAt(0);
+    if(c == 'E')
+        {
+        draws.Choicechange(1);
+        }
+    else if(c == 'C')
+        {
+        draws.Choicechange(2);
+        }
+    }
+}
+
+//Creates the frame where everything will be displayed.
+public static void main(String [] args )
+    {
+    Main frame = new Main();
+    draws = new draw();
+    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    frame.setSize(400, 400);
+    frame.add(draws);
+    frame.setVisible(true);
+    }
+}
