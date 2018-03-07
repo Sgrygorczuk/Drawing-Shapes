@@ -1,0 +1,188 @@
+/*
+Exercise 4
+For: CSC 22100 - F : Software Design Laboratory [ Fall 2016 ]
+Created by: Sebastian Grygorczuk
+Due: 11/21/2016
+*/
+
+import java.awt.Color;
+import java.awt.Graphics;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+
+/*
+The draw class extends the JPanel and is where the shapes will be drawn from
+*/
+
+public class draw extends JPanel {
+    public Color [] colors = {Color.BLACK, Color.BLUE, Color.CYAN, Color.DARK_GRAY, Color.GRAY,
+    Color.GREEN, Color.LIGHT_GRAY, Color.MAGENTA,
+    Color.ORANGE, Color.PINK, Color.RED, Color.WHITE, Color.YELLOW};
+    private int Choice = 0;
+    private String inputs = "";
+    private int input = 0;
+    private int x = 100;
+    private int y = 100;
+    private int Width = 200;
+    private double Radius = 100;
+    public Shape circleOne;
+    public Shape circleTwo;
+    public Shape triangle;
+    public Shape rectangle;
+    
+/*
+This method creates a question of where the user wants to place the object
+and what should the objects radius or width be. If user dosen't enter
+numbers then program uses oldest numbers inputed or deafult.
+*/
+
+public void Question()
+{
+    inputs = JOptionPane.showInputDialog("What should be the x coordinte?");
+    if(isNumeric(inputs))
+    {
+        x = Integer.parseInt(inputs);
+    }
+    inputs = JOptionPane.showInputDialog("What should be the y coordinte?");
+    if(isNumeric(inputs))
+    {
+        y = Integer.parseInt(inputs);
+    }
+    if(Choice == 1)
+    {
+    inputs = JOptionPane.showInputDialog("What should be the radius?");
+        if(isNumeric(inputs))
+        {
+            Radius = Integer.parseInt(inputs);
+        }
+    }
+    else if (Choice == 2)
+    {
+        inputs = JOptionPane.showInputDialog("What should be the width?");
+        if(isNumeric(inputs))
+        {
+            Width = Integer.parseInt(inputs);
+        }
+    }
+}
+
+/*
+A response function to the button handler that changes which
+object shall be draw, asks for the inputs and repaints the frame.
+*/
+    
+public void Choicechange(int a)
+{
+    Choice = a;
+    Question();
+    repaint();
+}
+
+/*
+Paint component will draw the selected obejct on the frame
+*/
+
+public void paintComponent(Graphics g)
+{
+    int X = x;
+    int Y = y;
+    int width = Width;
+    double radius = Radius;
+    super.paintComponents(g);
+    g.setColor(Color.WHITE);
+    g.fillRect(0, 0, 400, 400);
+    if(Choice == 1)
+    {
+        double Side;
+        circleOne = new Circle(radius,X, Y, Color.GREEN);
+        Side = (3*radius)/Math.sqrt(3);
+        double [] Sides = {Side,Side,Side};
+        width = (int) (2*radius);
+        X -= radius;
+        Y -= radius;
+        X += (width - (5*width)/7)/2;
+        Y += (width - (5*width)/7)/2;
+        System.out.println(X);
+        triangle = new Triangle (Sides,X,Y,Color.ORANGE);
+        colorSwap(circleOne);
+        colorSwap(triangle);
+        circleOne.draw(g);
+        triangle.draw(g);
+        g.setColor(Color.BLACK);
+        g.drawLine(0, x, 400, x);
+        g.drawLine(y, 0, y, 400);
+    }
+/*
+Since one shape is a Circle the Rectangles that are going
+to be made will all be squares.
+*/
+    else if(Choice == 2)
+    {
+        rectangle = new Rectangle(width,width,X,Y,Color.BLUE);
+        circleTwo = new Circle (width/2, X+width/2, Y+width/2, Color.GREEN);
+        for(int i = 0; i < 3; i++)
+        {
+            rectangle.draw(g);
+            circleTwo.draw(g);    
+            X += (width - (5*width)/7)/2;
+            Y += (width - (5*width)/7)/2;
+            width = 5*width/7;
+            radius = width/2;
+            colorSwap(rectangle);
+            colorSwap(circleTwo);
+            rectangle.setX(X);
+            rectangle.setY(Y);
+            rectangle.setWidth(width);
+            rectangle.setHeight(width);        
+            circleTwo.setX(X+width/2);
+            circleTwo.setY(Y+width/2);
+            circleTwo.setRadius(radius);
+        }
+    }
+}
+
+/*
+The colorSwap method allows the user to pick the color they want to
+use for the particualr shape.
+*/
+
+public void colorSwap(Shape shape)
+{
+    inputs = JOptionPane.showInputDialog("What would you like the color of the shape to be?\n"
+    + "Type a number between 0-13 to pick: \n(0) Black, (1) Blue, (2) Cyan, (3) Dark Gray,(4) Gray, (5) Green, \n(6) Light Gray, (7) Magenta, "
+    + "(8) Orange,(9) Pink, (10) Red,\n(11) White, (12) Yellow");
+    if(isNumeric(inputs))
+    {
+        input = Integer.parseInt(inputs);
+        if(input < 0 || input >12)
+        {
+            shape.setColor(colors[5]);
+        }
+        else
+        {
+            shape.setColor(colors[input]);
+        }
+    }
+    else
+    {
+        shape.setColor(colors[2]);
+    }
+}
+
+/*
+isNumeric method checks if the input from user is a number
+*/
+
+public static boolean isNumeric(String str)
+{
+    try
+    {
+        int d = Integer.parseInt(str);
+    }
+    catch(NumberFormatException nfe)
+    {
+        return false;
+    }
+    return true;
+}
+}
